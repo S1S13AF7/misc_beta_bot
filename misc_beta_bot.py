@@ -183,80 +183,6 @@ async def cmd_reg(message: types.Message):
 		snd_msg = time.strftime('%d.%m.%Y', time.localtime(rd))
 	await message.answer(snd_msg)
 
-@dp.message_handler(commands=['random','rand','rnd'])
-async def cmd_rand (message: types.Message):
-	user_id = int(message.from_user.id)
-	when_int = int(datetime.timestamp(message.date))
-	rd=await reg_user(message)#register_user#+sync
-	bal = int(42)#min bal
-	rkd = int(rd)#reg int
-	if db_sqlite3:
-		try:
-			cur.execute("SELECT mcoins,rnd_kd FROM users WHERE user_id = %d" % int(user_id)); 
-			rd = cur.fetchone();
-			if rd is None:
-				msg = "ERROR: user not registred in sqlite"	
-				print(msg)
-			else:
-				bal = int(max(int(rd[0]),bal))
-				rkd = int(max(int(rd[1]),rkd))
-		except Exception as Err:
-			msg = Err
-			print(Err)
-	if db_pymysql:
-		try:
-			dbc.execute("SELECT mcoins,rnd_kd FROM `tg_bot_users` WHERE user_id = %d" % int(user_id)); 
-			rd = dbc.fetchone();
-			if rd is None:
-				print('не знайшли юзера у базі localhost')
-				print(msg)
-			else:
-				bal = int(max(int(rd['mcoins']),bal))
-				rkd = int(max(int(rd['rnd_kd']),rkd))
-		except Exception as Err:
-			msg = Err
-			print(Err)
-	
-	if db_sqlite3 or db_pymysql:
-		# якщо вобще юзаєм базу
-		if when_int > rkd:
-			rnd = random.randint(-32,64)
-			if rnd > 0:
-				msg = f"✅ ok!	+{rnd}"
-				rkd = rnd * 60
-			if rnd < 0:
-				msg = f"❎ ой! {rnd}"
-				rkd = (64-rnd) *32
-			if rnd == 0:
-				rnd = 100
-				rkd = rnd * 64
-				msg = f"✅ оу!	+{rnd}"
-			bal+=rnd
-			if bal<10:
-				bal =10	#я сьодня добрьій.
-			msg=f"{msg}\n🤑 бл:	{bal} \n⏱ кд: {rkd} сек"
-			rkd+=when_int
-			if db_sqlite3:
-				try:
-					cur.execute("UPDATE users SET mcoins = :bal, rnd_kd = :rkd WHERE user_id = :uid;", 
-					{"rkd":int(rkd),"bal":int(bal),"uid":int(user_id)}); con.commit()
-				except Exception as Err:
-					msg = Err
-					print(Err)
-			if db_pymysql:
-				try:
-					dbc.execute(f"UPDATE `tg_bot_users` SET `rnd_kd` ='{rkd}',`mcoins` ='{bal}' WHERE user_id = %d" % int(user_id)); ldb.commit()#як я хотів воно нехотіло, тому буде пока так.
-				except Exception as Err:
-					msg = Err
-					print(Err)
-		else:
-			rkd = rkd-when_int
-			msg=f"\n ⏱ кд: {rkd} сек.\n🤑 бл:	{bal}"
-	else:
-		rnd = random.randint(-32,100)
-		msg = rnd
-	await message.answer(msg)
-
 @dp.message_handler(commands=['mz','мж','мз'])
 async def cmd_myzh (message: types.Message):
 	msg="🤷"
@@ -272,7 +198,7 @@ async def cmd_myzh (message: types.Message):
 			bz_info = dbc.fetchmany(10)#получить
 			all_sicknes=[]#інфа
 			count=len(bz_info)
-			who=f"🦠 {user_fn}:"
+			who=f'🦠 <a href="tg://openmessage?user_id={user_id}">{user_fn}</a>:'
 			for row in bz_info:
 				print(row)
 				id_user=row["user_id"]
@@ -280,7 +206,7 @@ async def cmd_myzh (message: types.Message):
 				u_link =f'tg://openmessage?user_id={id_user}'	#fix для любителів мінять його
 				expr_str=re.sub(r'.20', r'.',row["expr_str"]) #.2024->.24
 				a_href = f'<a href="{u_link}"><code>@{id_user}</code></a>'
-				all_sicknes.append(f"➕{bio_str}	{a_href}#{expr_str}\n")
+				all_sicknes.append(f"➕{bio_str} {a_href}#{expr_str}\n")
 			if len(all_sicknes)!=0:
 				all_sicknes=f'{who}\n{"".join(all_sicknes)}'
 			else:
@@ -306,7 +232,7 @@ async def cmd_ends (message: types.Message):
 			bz_info = dbc.fetchmany(10)#получить
 			all_sicknes=[]#інфа
 			count=len(bz_info)
-			who=f"🦠 {user_fn}:"
+			who=f'🦠 <a href="tg://openmessage?user_id={user_id}">{user_fn}</a>:'
 			for row in bz_info:
 				print(row)
 				id_user=row["user_id"]
@@ -331,7 +257,6 @@ async def process_help_command(message: types.Message):
 	await message.answer('''
 •	💬 /chats
 •	🎲 /dice
-•	🤑 /rnd
 •	🦠 /mz
 ''')
 
@@ -347,7 +272,7 @@ async def cmd_dice(message: types.Message):
 async def cmd_code(message: types.Message):
 	text='''
 <code>https://github.com/S1S13AF7/misc_beta_bot</code> – код бота @misc_beta_bot
-<code>https://github.com/S1S13AF7/ub4tg</code> – юб. Зберігалка хто кого заразив
+<code>https://github.com/S1S13AF7/ub4tg</code> – юб. 
 	'''
 	await message.answer(text,parse_mode=types.ParseMode.HTML)
 
