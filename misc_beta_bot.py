@@ -298,7 +298,7 @@ async def cmd_termux(message: types.Message):
 async def cmd_startrek(message: types.Message):
 	text='''
 Як дивитись Star Trek?! Легко і просто береш і дивишся. 
-Або якщо цікавить правильний порядок то їх є кілька. 
+Або якщо цікавить правильний порядок то 
 <a href = "https://thestartrekchronologyproject.blogspot.com/2009/09/and-now-conclusion.html">список всіх серій</a>:
 <code>https://thestartrekchronologyproject.blogspot.com/2009/09/and-now-conclusion.html</code>
 
