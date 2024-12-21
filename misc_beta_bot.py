@@ -276,6 +276,24 @@ async def cmd_code(message: types.Message):
 	'''
 	await message.answer(text,parse_mode=types.ParseMode.HTML)
 
+@dp.message_handler(commands=['termux','термукс'])
+async def cmd_code(message: types.Message):
+	text='''
+<a href="https://f-droid.org/repo/com.termux_1020.apk">Termux_1020</a> / <a 
+	href="https://f-droid.org/repo/com.termux.api_51.apk">Termux API</a>
+
+<code>pkg install openssl python3 git termux-api</code>
+
+далі клонуємо із /code
+<code>git clone </code>Адреса
+
+<code>cd ub4tg && pip3 install -r requirements.txt</code>
+
+запуск: <code>python3 ubot.py</code>
+
+	'''
+	await message.answer(text,parse_mode=types.ParseMode.HTML)
+
 @dp.message_handler(commands=['chats','чати','чаты','чаті'])
 async def cmd_chats(message: types.Message):
 	await message.answer('''
