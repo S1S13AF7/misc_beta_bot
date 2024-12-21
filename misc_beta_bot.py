@@ -297,7 +297,7 @@ async def cmd_termux(message: types.Message):
 @dp.message_handler(commands=['st','startrek'])
 async def cmd_startrek(message: types.Message):
 	text='''
-Як дивитись Star Trek?! Легко і просто береш і дивишся. 
+Як дивитись «Star Trek»?! Легко і просто береш і дивишся. 
 Або якщо цікавить правильний порядок то 
 <a href = "https://thestartrekchronologyproject.blogspot.com/2009/09/and-now-conclusion.html">список всіх серій</a>:
 <code>https://thestartrekchronologyproject.blogspot.com/2009/09/and-now-conclusion.html</code>
