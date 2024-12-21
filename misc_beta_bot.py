@@ -277,7 +277,7 @@ async def cmd_code(message: types.Message):
 	await message.answer(text,parse_mode=types.ParseMode.HTML)
 
 @dp.message_handler(commands=['termux','термукс'])
-async def cmd_code(message: types.Message):
+async def cmd_termux(message: types.Message):
 	text='''
 <a href="https://f-droid.org/repo/com.termux_1020.apk">Termux_1020</a> / <a 
 	href="https://f-droid.org/repo/com.termux.api_51.apk">Termux API</a>
@@ -290,6 +290,17 @@ async def cmd_code(message: types.Message):
 <code>cd ub4tg && pip3 install -r requirements.txt</code>
 
 запуск: <code>python3 ubot.py</code>
+
+	'''
+	await message.answer(text,parse_mode=types.ParseMode.HTML)
+
+@dp.message_handler(commands=['st','startrek'])
+async def cmd_startrek(message: types.Message):
+	text='''
+Як дивитись Star Trek?! Легко і просто береш і дивишся. 
+Або якщо цікавить правильний порядок то їх є кілька. 
+<a href = "https://thestartrekchronologyproject.blogspot.com/2009/09/and-now-conclusion.html?m=1">список всіх серій</a>:
+<code>https://thestartrekchronologyproject.blogspot.com/2009/09/and-now-conclusion.html?m=1</coode>
 
 	'''
 	await message.answer(text,parse_mode=types.ParseMode.HTML)
