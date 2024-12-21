@@ -300,7 +300,7 @@ async def cmd_startrek(message: types.Message):
 Як дивитись Star Trek?! Легко і просто береш і дивишся. 
 Або якщо цікавить правильний порядок то їх є кілька. 
 <a href = "https://thestartrekchronologyproject.blogspot.com/2009/09/and-now-conclusion.html?m=1">список всіх серій</a>:
-<code>https://thestartrekchronologyproject.blogspot.com/2009/09/and-now-conclusion.html?m=1</coode>
+<code>https://thestartrekchronologyproject.blogspot.com/2009/09/and-now-conclusion.html?m=1</code>
 
 	'''
 	await message.answer(text,parse_mode=types.ParseMode.HTML)
