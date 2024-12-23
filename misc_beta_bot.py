@@ -194,7 +194,7 @@ async def cmd_myzh (message: types.Message):
 	if db_pymysql:
 		try:
 			#зберігалка: https://github.com/S1S13AF7/ub4tg (адреса може змінитись)
-			dbc.execute("SELECT user_id,bio_str,expr_str FROM `tg_iris_zarazy` WHERE who_id = %d ORDER BY when_int DESC LIMIT 10;" % int(user_id));
+			dbc.execute("SELECT user_id,bio_str,expr_int,expr_str FROM `tg_iris_zarazy` WHERE who_id = %d ORDER BY when_int DESC LIMIT 10;" % int(user_id));
 			bz_info = dbc.fetchmany(10)#получить
 			all_sicknes=[]#інфа
 			count=len(bz_info)
@@ -205,6 +205,8 @@ async def cmd_myzh (message: types.Message):
 				bio_str=row["bio_str"]
 				u_link =f'tg://openmessage?user_id={id_user}'	#fix для любителів мінять його
 				expr_str=re.sub(r'.20', r'.',row["expr_str"]) #.2024->.24
+				if int(row["expr_int"]) > 1735596000:	#31.12.2024 00:00:00
+					expr_str='31.12.24' # Fix? Iris off biogame 31.12.24 :(
 				a_href = f'<a href="{u_link}"><code>@{id_user}</code></a>'
 				all_sicknes.append(f"➕{bio_str} {a_href}#{expr_str}\n")
 			if len(all_sicknes)!=0:
