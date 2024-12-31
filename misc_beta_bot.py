@@ -314,11 +314,33 @@ async def cmd_startrek(message: types.Message):
 
 @dp.message_handler(commands=['victims','дн'])
 async def cmd_victims(message: types.Message):
-	text='''
-‼️ для бота @bio_attacker_bot
-
-@avocado_victims
-	'''
+	text='‼️ для бота @bio_attacker_bot\n\n'
+	file='victims.txt' # ім'я файлу з айді
+	if not os.path.exists(file):
+		pass
+	else:
+		with open(file,"r",encoding="utf-8") as f:
+			ids=[]
+			ii = 0
+			li = f.readlines()
+			for line in li:
+				if line == '':
+					continue
+				r= re.findall(r'([0-9]{6,10})',line)
+				if r:
+					id=int(r[0])
+					if id not in ids:
+						ii+=1 # 1,2,3,4,5,6,7,
+						ids.append(id)	#	додаємо у масив
+						code=f'<code>@{id}</code>';	#	копіпабельно
+						href=f'<a href="tg://openmessage?user_id={id}">{code}</a>'
+						if not code in line and not href in line:
+							line=re.sub(f'@{id}',href,line)
+						text=f'{text}{ii}.	{line}'#append
+			if len(ids)>0:
+				text=f'{text}\nℹ️		інфа може бути застаріла.'
+						
+	text=f'{text}\n💬	@avocado_victims'
 	await message.answer(text,parse_mode=types.ParseMode.HTML)
 
 @dp.message_handler(commands=['chats','чати','чаты','чаті'])
