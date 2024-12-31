@@ -192,14 +192,16 @@ async def cmd_myzh (message: types.Message):
 	when_int = int(datetime.timestamp(message.date))
 	rd=int(await reg_user(message))#create or date
 	if db_pymysql:
+		ii=0
 		try:
-			#зберігалка: https://github.com/S1S13AF7/ub4tg (адреса може змінитись)
-			dbc.execute("SELECT user_id,bio_str,expr_int,expr_str FROM `tg_iris_zarazy` WHERE who_id = %d ORDER BY when_int DESC LIMIT 10;" % int(user_id));
-			bz_info = dbc.fetchmany(10)#получить
+			
+			dbc.execute("SELECT user_id,bio_str,expr_int,expr_str FROM `tg_iris_zarazy` WHERE who_id = %d ORDER BY when_int DESC LIMIT 20;" % int(user_id));
+			bz_info = dbc.fetchmany(20)#получить
 			all_sicknes=[]#інфа
 			count=len(bz_info)
 			who=f'🦠 <a href="tg://openmessage?user_id={user_id}">{user_fn}</a>:'
 			for row in bz_info:
+				ii+=1
 				print(row)
 				id_user=row["user_id"]
 				bio_str=row["bio_str"]
@@ -208,7 +210,7 @@ async def cmd_myzh (message: types.Message):
 				if int(row["expr_int"]) > 1735596000:	#31.12.2024 00:00:00
 					expr_str='31.12.24' # Fix? Iris off biogame 31.12.24 :(
 				a_href = f'<a href="{u_link}"><code>@{id_user}</code></a>'
-				all_sicknes.append(f"➕{bio_str} {a_href}#{expr_str}\n")
+				all_sicknes.append(f"{ii}.	➕{bio_str} {a_href}\n")
 			if len(all_sicknes)!=0:
 				all_sicknes=f'{who}\n{"".join(all_sicknes)}'
 			else:
@@ -232,7 +234,7 @@ async def cmd_ends (message: types.Message):
 			ii=0
 			try:
 				dbc.execute(f"SELECT user_id,bio_str,expr_str FROM `tg_iris_zarazy` WHERE who_id = {user_id} AND expr_int < {when_int} ORDER BY `bio_int` DESC, `when_int` DESC LIMIT 15;")
-				bz_info = dbc.fetchmany(10)#получить
+				bz_info = dbc.fetchmany(15)#получить
 				all_sicknes=[]#інфа
 				count=len(bz_info)
 				who=f'🦠 <a href="tg://openmessage?user_id={user_id}">{user_fn}</a>:'
@@ -242,9 +244,9 @@ async def cmd_ends (message: types.Message):
 					id_user=row["user_id"]
 					bio_str=row["bio_str"]
 					u_link =f'tg://openmessage?user_id={id_user}'
-					expr_str=re.sub(r'.20', r'.',row["expr_str"]) #.2024->.24
-					a_href = f'{ii}.	<a href="{u_link}"><code>@{id_user}</code></a>'
-					all_sicknes.append(f"➕{bio_str} {a_href}#{expr_str}\n")
+					#expr_str=re.sub(r'.20', r'.',row["expr_str"]) #.2024->.24
+					a_href = f'<a href="{u_link}"><code>@{id_user}</code></a>'
+					all_sicknes.append(f"{ii}.	➕{bio_str} {a_href}\n")
 				if len(all_sicknes)!=0:
 					all_sicknes=f'{who}\n{"".join(all_sicknes)}'
 				else:
@@ -260,6 +262,7 @@ async def process_help_command(message: types.Message):
 	#await message.answer(emoji="🤷")
 	await message.answer('''
 •	💬 /chats
+•	📃 /code
 •	🎲 /dice
 ''')
 
@@ -276,6 +279,7 @@ async def cmd_code(message: types.Message):
 	text='''
 <code>https://github.com/S1S13AF7/misc_beta_bot</code> – код бота @misc_beta_bot
 <code>https://github.com/S1S13AF7/ub4tg</code> – юб. 
+<code>https://code.criminallycute.fi/bioeb_org/ub4tg</code> – fork
 <code>https://code.criminallycute.fi/S1S13AF7/victims</code>
 	'''
 	await message.answer(text,parse_mode=types.ParseMode.HTML)
