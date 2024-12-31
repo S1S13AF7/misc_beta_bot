@@ -245,7 +245,7 @@ async def cmd_ends (message: types.Message):
 					bio_str=row["bio_str"]
 					u_link =f'tg://openmessage?user_id={id_user}'
 					a_href = f'<a href="{u_link}"><code>@{id_user}</code></a>'
-					all_sicknes.append(f"{ii}.	{a_href}	➕{bio_str}\n")
+					all_sicknes.append(f"{ii}.	{a_href}	<s>➕{bio_str}</s>\n")
 				if len(all_sicknes)!=0:
 					all_sicknes=f'{who}\n{"".join(all_sicknes)}'
 				else:
