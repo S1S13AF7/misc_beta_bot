@@ -210,7 +210,7 @@ async def cmd_myzh (message: types.Message):
 				if int(row["expr_int"]) > 1735596000:	#31.12.2024 00:00:00
 					expr_str='31.12.24' # Fix? Iris off biogame 31.12.24 :(
 				a_href = f'<a href="{u_link}"><code>@{id_user}</code></a>'
-				all_sicknes.append(f"{ii}.	➕{bio_str} {a_href}\n")
+				all_sicknes.append(f"{ii}.	{a_href}	➕{bio_str}\n")
 			if len(all_sicknes)!=0:
 				all_sicknes=f'{who}\n{"".join(all_sicknes)}'
 			else:
@@ -233,8 +233,8 @@ async def cmd_ends (message: types.Message):
 		if db_pymysql:
 			ii=0
 			try:
-				dbc.execute(f"SELECT user_id,bio_str,expr_str FROM `tg_iris_zarazy` WHERE who_id = {user_id} AND expr_int < {when_int} ORDER BY `bio_int` DESC, `when_int` DESC LIMIT 15;")
-				bz_info = dbc.fetchmany(15)#получить
+				dbc.execute(f"SELECT user_id,bio_str,expr_str FROM `tg_iris_zarazy` WHERE who_id = {user_id} AND expr_int < {when_int} ORDER BY `bio_int` DESC, `when_int` DESC LIMIT 20;")
+				bz_info = dbc.fetchmany(20)#получить
 				all_sicknes=[]#інфа
 				count=len(bz_info)
 				who=f'🦠 <a href="tg://openmessage?user_id={user_id}">{user_fn}</a>:'
@@ -244,9 +244,8 @@ async def cmd_ends (message: types.Message):
 					id_user=row["user_id"]
 					bio_str=row["bio_str"]
 					u_link =f'tg://openmessage?user_id={id_user}'
-					#expr_str=re.sub(r'.20', r'.',row["expr_str"]) #.2024->.24
 					a_href = f'<a href="{u_link}"><code>@{id_user}</code></a>'
-					all_sicknes.append(f"{ii}.	➕{bio_str} {a_href}\n")
+					all_sicknes.append(f"{ii}.	{a_href}	➕{bio_str}\n")
 				if len(all_sicknes)!=0:
 					all_sicknes=f'{who}\n{"".join(all_sicknes)}'
 				else:
