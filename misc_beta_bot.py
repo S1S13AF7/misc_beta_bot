@@ -206,11 +206,11 @@ async def cmd_myzh (message: types.Message):
 				id_user=row["user_id"]
 				bio_str=row["bio_str"]
 				u_link =f'tg://openmessage?user_id={id_user}'	#fix для любителів мінять його
-				expr_str=re.sub(r'.20', r'.',row["expr_str"]) #.2024->.24
-				if int(row["expr_int"]) > 1735596000:	#31.12.2024 00:00:00
-					expr_str='31.12.24' # Fix? Iris off biogame 31.12.24 :(
 				a_href = f'<a href="{u_link}"><code>@{id_user}</code></a>'
-				all_sicknes.append(f"{ii}.	{a_href}	➕{bio_str}\n")
+				if int(row["when_int"]) < 1735682400:	#01.01.2025 00:00:00
+					all_sicknes.append(f"{ii}.	{a_href}	<s>➕{bio_str}</s>\n")	#	старі закреслені. 
+				else:
+					all_sicknes.append(f"{ii}.	{a_href}	➕{bio_str}\n")	# якщо будуть нові?
 			if len(all_sicknes)!=0:
 				all_sicknes=f'{who}\n{"".join(all_sicknes)}'
 			else:
@@ -340,7 +340,7 @@ async def cmd_victims(message: types.Message):
 			if len(ids)>0:
 				text=f'{text}\nℹ️		інфа може бути застаріла.'
 						
-	text=f'{text}\n💬	@avocado_victims'
+	#text=f'{text}\n💬	@misc_games' # замінив на наш ігровий
 	await message.answer(text,parse_mode=types.ParseMode.HTML)
 
 @dp.message_handler(commands=['chats','чати','чаты','чаті'])
@@ -349,8 +349,6 @@ async def cmd_chats(message: types.Message):
 •	☕ @misc_chat
 •	🦠 @misc_games
 •	🗃 @misc_files_v2
-•	🥑 @avocado_victims
-•	😈 @ub4tg
 ''')
 
 if __name__ == '__main__':
