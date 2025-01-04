@@ -195,7 +195,7 @@ async def cmd_myzh (message: types.Message):
 		ii=0
 		try:
 			
-			dbc.execute("SELECT user_id,bio_str,expr_int,expr_str FROM `tg_iris_zarazy` WHERE who_id = %d ORDER BY when_int DESC LIMIT 20;" % int(user_id));
+			dbc.execute("SELECT user_id,bio_str,expr_int,when_int FROM `tg_iris_zarazy` WHERE who_id = %d ORDER BY when_int DESC LIMIT 20;" % int(user_id));
 			bz_info = dbc.fetchmany(20)#получить
 			all_sicknes=[]#інфа
 			count=len(bz_info)
